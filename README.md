@@ -16,7 +16,8 @@ This repository contains automated setup scripts for configuring a secure server
 Create a `.env` file in the root directory with the required environment variables:
 
 ```bash
-SSH_PORT=12345
+SSH_PORT=42042
+GH_ACTIONS_USER=gh-actions
 ```
 
 ## Usage
@@ -35,16 +36,35 @@ The orchestrator will:
 
 ## Setup Scripts
 
-### SSH Configuration (`scripts/ssh.sh`)
+### SSH Configuration (`scripts/change-port-for-ssh.sh`)
 
 Configures SSH with a custom port for enhanced security:
 - Validates and updates SSH port configuration
 - Creates timestamped backups of `sshd_config`
 - Configures UFW firewall rules (if available)
+- Handles socket activation properly
 - Restarts SSH service
 - Verifies the new configuration
 
 **Important**: After running, test the new SSH port in a separate terminal before closing your current session.
+
+### GitHub Actions User Setup (`scripts/add-gh-actions-user.sh`)
+
+Creates a dedicated user for GitHub Actions deployments with proper permissions:
+- Creates user if it doesn't exist (idempotent)
+- Adds user to docker group for container management
+- Generates SSH key pair (ed25519)
+- Configures authorized_keys for SSH access
+- Sets up passwordless sudo for docker and systemctl commands
+- Displays private key for GitHub Secrets configuration
+
+**Output**: The script displays the SSH private key that should be added to your GitHub repository secrets as `SSH_PRIVATE_KEY`.
+
+**GitHub Secrets Required**:
+- `SSH_PRIVATE_KEY`: The private key displayed by the script
+- `SSH_USER`: The username (from `GH_ACTIONS_USER` in `.env`)
+- `SSH_HOST`: Your server IP or hostname
+- `SSH_PORT`: Your custom SSH port (from `SSH_PORT` in `.env`)
 
 ## Adding New Setup Scripts
 

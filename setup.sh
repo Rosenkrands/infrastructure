@@ -76,7 +76,8 @@ run_setup_script() {
 
 # Run setup scripts
 # Add more scripts here as needed
-run_setup_script "ssh.sh"
+run_setup_script "change-port-for-ssh.sh" || true
+run_setup_script "add-gh-actions-user.sh" || true
 
 # Add future setup scripts here:
 # run_setup_script "firewall.sh"
