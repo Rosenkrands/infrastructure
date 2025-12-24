@@ -75,7 +75,6 @@ run_setup_script() {
 }
 
 # Run setup scripts
-# Add more scripts here as needed
 run_setup_script "change-port-for-ssh.sh" || true
 run_setup_script "configure-firewall.sh" || true
 run_setup_script "add-gh-actions-user.sh" || true
@@ -100,7 +99,7 @@ echo ""
 
 if [ $FAIL_COUNT -eq 0 ]; then
     echo -e "${GREEN}╔════════════════════════════════════════╗${NC}"
-    echo -e "${GREEN}║    All Setup Scripts Completed! 🎉     ║${NC}"
+    echo -e "${GREEN}║    All Setup Scripts Completed!        ║${NC}"
     echo -e "${GREEN}╚════════════════════════════════════════╝${NC}"
     exit 0
 else
